@@ -1,9 +1,9 @@
-import sys
 import os
+import sys
 
-# Add the root directory to the python path so modules can be found
-root_dir = os.path.abspath(os.path.join(os.path.dirname(__name__), '..', '..'))
-sys.path.append(root_dir)
+# Ensure the root of the lambda task is in the Python path
+if '/var/task' not in sys.path:
+    sys.path.insert(0, '/var/task')
 
 import serverless_wsgi
 from app import app
