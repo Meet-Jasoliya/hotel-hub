@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+
+{% block title %}Customer - Find Hotels{% endblock %}
+
+{% block content %}
+<div class="content-wrapper">
+    <div style="display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 30px; border-bottom: 1px solid var(--border-color); padding-bottom: 20px;">
+        <div>
+            <h1 style="font-size: 36px; font-weight: 700; margin-bottom: 8px;">Find Your Perfect Stay</h1>
+            <p style="color: var(--text-secondary); font-size: 18px;">Browse our curated selection of top-rated hotels.</p>
+        </div>
+    </div>
+
+    <div class="hotels-grid" style="margin-top: 0; padding: 0;">
+        {% if hotels %}
+            {% for hotel in hotels %}
+            <div class="hotel-card">
+                <!-- Show actual hotel image if available, else fallback -->
+                {% if hotel.image_path %}
+                    <img src="{{ url_for('static', filename=hotel.image_path) }}" class="hotel-card-img" alt="{{ hotel.name }}">
+                {% else %}
+                    <img src="{{ url_for('static', filename='img/hotel1.png') }}" class="hotel-card-img" alt="Hotel">
+                {% endif %}
+                <div class="hotel-card-body">
+                    <h3 class="hotel-card-title">{{ hotel.name }}</h3>
+                    <div class="hotel-card-location"><i class="fa-solid fa-location-dot"></i> {{ hotel.address }}</div>
+                    <p style="color: var(--text-secondary); font-size: 14px; margin-bottom: 20px; line-height: 1.5;">{{ hotel.description[:120] }}...</p>
+                    
+                    <a href="{{ url_for('customer.view_hotel', hotel_id=hotel.id) }}" class="btn-primary" style="width: 100%;">View Rooms</a>
+                </div>
+            </div>
+            {% endfor %}
+        {% else %}
+            <div class="white-panel" style="padding: 60px; text-align: center; grid-column: 1 / -1;">
+                <i class="fa-solid fa-map-location-dot" style="font-size: 64px; margin-bottom: 24px; opacity: 0.2; color: var(--accent-primary);"></i>
+                <h3 style="font-size: 24px; margin-bottom: 12px;">No hotels available yet</h3>
+                <p style="color: var(--text-secondary); font-size: 16px;">Please check back later.</p>
+            </div>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

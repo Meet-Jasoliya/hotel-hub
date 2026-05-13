@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bill - Booking #{{ booking.id }}</title>
+    <style>
+        body { font-family: 'Inter', sans-serif; padding: 40px; background: #f8fafc; color: #1e293b; }
+        .bill-container { max-width: 800px; margin: 0 auto; background: white; padding: 40px; border-radius: 12px; box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1); }
+        .header { display: flex; justify-content: space-between; border-bottom: 2px solid #e2e8f0; padding-bottom: 20px; margin-bottom: 30px; }
+        .hotel-info h1 { margin: 0 0 10px 0; color: #3b82f6; font-size: 28px; }
+        .hotel-info p { margin: 5px 0; color: #64748b; }
+        .bill-info { text-align: right; }
+        .bill-info h2 { margin: 0 0 10px 0; font-size: 24px; color: #0f172a; }
+        .bill-info p { margin: 5px 0; color: #64748b; }
+        .customer-section { margin-bottom: 30px; }
+        .customer-section h3 { margin-bottom: 10px; color: #0f172a; font-size: 18px; }
+        .customer-section p { margin: 5px 0; }
+        .details-table { width: 100%; border-collapse: collapse; margin-bottom: 30px; }
+        .details-table th, .details-table td { padding: 15px; text-align: left; border-bottom: 1px solid #e2e8f0; }
+        .details-table th { background: #f8fafc; color: #64748b; font-weight: 600; }
+        .total-section { text-align: right; font-size: 24px; font-weight: 700; color: #3b82f6; }
+        .print-btn { display: block; margin: 30px auto 0; padding: 12px 24px; background: #3b82f6; color: white; border: none; border-radius: 8px; font-size: 16px; cursor: pointer; text-align: center; max-width: 200px; }
+        .print-btn:hover { background: #2563eb; }
+        @media print {
+            body { background: white; padding: 0; }
+            .bill-container { box-shadow: none; padding: 0; }
+            .print-btn { display: none; }
+        }
+    </style>
+</head>
+<body>
+    <div class="bill-container">
+        <div class="header">
+            <div class="hotel-info">
+                <h1>{{ booking.hotel.name }}</h1>
+                <p>{{ booking.hotel.address }}</p>
+                <p>Email: {{ booking.hotel.owner.email }}</p>
+            </div>
+            <div class="bill-info">
+                <h2>INVOICE</h2>
+                <p><strong>Booking ID:</strong> #{{ booking.id }}</p>
+                <p><strong>Date:</strong> {{ current_date }}</p>
+                <p><strong>Status:</strong> <span style="text-transform: capitalize;">{{ booking.status }}</span></p>
+            </div>
+        </div>
+
+        <div class="customer-section">
+            <h3>Billed To:</h3>
+            <p><strong>Name:</strong> {{ booking.customer.username }}</p>
+            <p><strong>Email:</strong> {{ booking.customer.email }}</p>
+        </div>
+
+        <table class="details-table">
+            <thead>
+                <tr>
+                    <th>Description</th>
+                    <th>Check-in</th>
+                    <th>Check-out</th>
+                    <th>Price/Night</th>
+                    <th>Total</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Room {{ booking.room.room_number }} ({{ booking.room.room_type }})</td>
+                    <td>{{ booking.check_in_date }}</td>
+                    <td>{{ booking.check_out_date }}</td>
+                    <td>₹{{ "%.2f"|format(booking.room.price_per_night) }}</td>
+                    <td>₹{{ "%.2f"|format(booking.total_price) }}</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <div class="total-section">
+            Grand Total: ₹{{ "%.2f"|format(booking.total_price) }}
+        </div>
+
+        <button class="print-btn" onclick="window.print()">Print Bill</button>
+    </div>
+</body>
+</html>

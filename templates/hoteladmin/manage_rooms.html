@@ -1,0 +1,76 @@
+{% extends "base.html" %}
+
+{% block title %}Hotel Admin - Manage Rooms{% endblock %}
+{% block page_title %}Manage Rooms{% endblock %}
+
+{% block content %}
+<div style="display: grid; grid-template-columns: 1fr 2fr; gap: 30px;">
+    <!-- Add Room Form -->
+    <div class="glass-panel" style="padding: 30px; align-self: start;">
+        <h3 style="margin-bottom: 20px;">Add New Room</h3>
+        <form method="POST" action="{{ url_for('hoteladmin.manage_rooms') }}">
+            <div class="form-group">
+                <label for="room_number">Room Number / Name</label>
+                <input type="text" id="room_number" name="room_number" class="form-control" placeholder="e.g., 101, Presidential Suite" required>
+            </div>
+            
+            <div class="form-group">
+                <label for="room_type">Room Type</label>
+                <select id="room_type" name="room_type" class="form-control" required>
+                    <option value="Single">Single</option>
+                    <option value="Double">Double</option>
+                    <option value="Suite">Suite</option>
+                    <option value="Deluxe">Deluxe</option>
+                </select>
+            </div>
+            
+            <div class="form-group">
+                <label for="price_per_night">Price Per Night ($)</label>
+                <input type="number" id="price_per_night" name="price_per_night" class="form-control" step="0.01" min="0" required>
+            </div>
+            
+            <button type="submit" class="btn-primary" style="width: 100%;">Add Room</button>
+        </form>
+    </div>
+
+    <!-- Room List -->
+    <div class="glass-panel" style="padding: 30px;">
+        <h3 style="margin-bottom: 20px;">Room Inventory</h3>
+        
+        {% if rooms %}
+        <div class="table-responsive">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Room</th>
+                        <th>Type</th>
+                        <th>Price/Night</th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for room in rooms %}
+                    <tr>
+                        <td><strong>{{ room.room_number }}</strong></td>
+                        <td>{{ room.room_type }}</td>
+                        <td>${{ "%.2f"|format(room.price_per_night) }}</td>
+                        <td>
+                            {% if room.is_available %}
+                                <span class="badge badge-approved">Available</span>
+                            {% else %}
+                                <span class="badge badge-rejected">Booked</span>
+                            {% endif %}
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        {% else %}
+        <div style="text-align: center; padding: 40px; color: var(--text-secondary);">
+            <p>You haven't added any rooms yet.</p>
+        </div>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

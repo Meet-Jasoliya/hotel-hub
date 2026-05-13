@@ -1,0 +1,76 @@
+{% extends "base.html" %}
+
+{% block title %}View Hotel - {{ hotel.name }}{% endblock %}
+{% block page_title %}{{ hotel.name }}{% endblock %}
+
+{% block content %}
+<div class="content-wrapper">
+    <!-- Hotel Image Banner -->
+    <div style="width: 100%; height: 400px; border-radius: 20px; overflow: hidden; margin-bottom: 30px; position: relative;">
+        {% if hotel.image_path %}
+            <img src="{{ url_for('static', filename=hotel.image_path) }}" alt="{{ hotel.name }}" style="width: 100%; height: 100%; object-fit: cover;">
+        {% else %}
+            <img src="{{ url_for('static', filename='img/hotel1.png') }}" alt="{{ hotel.name }}" style="width: 100%; height: 100%; object-fit: cover;">
+        {% endif %}
+        <div style="position: absolute; bottom: 0; left: 0; right: 0; background: linear-gradient(to top, rgba(0,0,0,0.8), transparent); padding: 40px; color: white;">
+            <h1 style="font-size: 42px; font-weight: 700; margin-bottom: 10px;">{{ hotel.name }}</h1>
+            <p style="font-size: 18px; opacity: 0.9;"><i class="fa-solid fa-location-dot"></i> {{ hotel.address }}</p>
+        </div>
+    </div>
+
+    <div class="white-panel" style="padding: 40px; margin-bottom: 40px; text-align: center;">
+        <h3 style="font-size: 24px; font-weight: 600; margin-bottom: 16px;">About the Hotel</h3>
+        <p style="font-size: 16px; line-height: 1.8; max-width: 800px; margin: 0 auto; color: var(--text-secondary);">{{ hotel.description }}</p>
+    </div>
+
+    <h2 style="font-size: 28px; font-weight: 700; margin-bottom: 24px; text-align: center;">Available Rooms</h2>
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 30px;">
+        {% if rooms %}
+            {% for room in rooms %}
+            <div class="hotel-card" style="display: flex; flex-direction: column;">
+                <div style="background: var(--bg-gray); padding: 40px 20px; text-align: center; border-bottom: 1px solid var(--border-color);">
+                    <i class="fa-solid fa-bed" style="font-size: 48px; color: var(--accent-primary); margin-bottom: 16px;"></i>
+                    <h3 style="font-size: 24px; margin-bottom: 8px;">{{ room.room_type }} Room</h3>
+                    <span style="color: var(--text-secondary); font-weight: 600;">Room {{ room.room_number }}</span>
+                </div>
+                
+                <div class="hotel-card-body" style="flex-grow: 1; display: flex; flex-direction: column;">
+                    <div style="text-align: center; margin-bottom: 24px;">
+                        <h2 class="accent-text" style="font-size: 32px;">₹{{ "%.2f"|format(room.price_per_night) }}<span style="font-size: 16px; color: var(--text-secondary);"> / night</span></h2>
+                    </div>
+                    
+                    <form method="POST" action="{{ url_for('customer.book_room', room_id=room.id) }}" enctype="multipart/form-data" style="margin-top: auto;">
+                        <div style="display: flex; gap: 15px; margin-bottom: 20px;">
+                            <div style="flex-grow: 1;">
+                                <label for="check_in_{{ room.id }}" style="display: block; font-size: 12px; font-weight: 600; text-transform: uppercase; color: var(--text-secondary); margin-bottom: 8px;">Check In</label>
+                                <input type="date" id="check_in_{{ room.id }}" name="check_in" class="form-control" required>
+                            </div>
+                            <div style="flex-grow: 1;">
+                                <label for="check_out_{{ room.id }}" style="display: block; font-size: 12px; font-weight: 600; text-transform: uppercase; color: var(--text-secondary); margin-bottom: 8px;">Check Out</label>
+                                <input type="date" id="check_out_{{ room.id }}" name="check_out" class="form-control" required>
+                            </div>
+                        </div>
+                        
+                        <div style="margin-bottom: 20px;">
+                            <label for="identity_proof_{{ room.id }}" style="display: block; font-size: 12px; font-weight: 600; text-transform: uppercase; color: var(--text-secondary); margin-bottom: 8px;">Identity Proof (Required)</label>
+                            <input type="file" id="identity_proof_{{ room.id }}" name="identity_proof" class="form-control" accept=".jpg,.jpeg,.png,.pdf" required style="padding: 10px; background: white; border: 1px solid var(--border-color); border-radius: 8px; width: 100%;">
+                        </div>
+                        
+                        {% if current_user.is_authenticated and current_user.role == 'customer' %}
+                            <button type="submit" class="btn-primary" style="width: 100%; padding: 16px;">Book This Room</button>
+                        {% else %}
+                            <a href="{{ url_for('auth.login') }}" class="btn-primary" style="width: 100%; display: block; text-align: center; padding: 16px; background: var(--text-secondary);">Log in as Customer to Book</a>
+                        {% endif %}
+                    </form>
+                </div>
+            </div>
+            {% endfor %}
+        {% else %}
+            <div class="white-panel" style="padding: 60px; text-align: center; grid-column: 1 / -1;">
+                <i class="fa-solid fa-door-closed" style="font-size: 48px; color: var(--text-secondary); margin-bottom: 16px; opacity: 0.5;"></i>
+                <p style="color: var(--text-secondary); font-size: 18px;">Sorry, no rooms are currently available at this hotel.</p>
+            </div>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,69 @@
+{% extends "base.html" %}
+
+{% block title %}Customer - Room Service{% endblock %}
+{% block page_title %}Room Service Request{% endblock %}
+
+{% block content %}
+<div class="glass-panel" style="padding: 30px; margin-bottom: 30px;">
+    <h2>Request Service for Room {{ booking.room.room_number }}</h2>
+    <p style="color: var(--text-secondary);">At {{ booking.hotel.name }}</p>
+    
+    <form method="POST" action="{{ url_for('customer.room_service', booking_id=booking.id) }}" style="margin-top: 20px; max-width: 500px;">
+        <div class="form-group">
+            <label for="service_type">Service Type</label>
+            <select id="service_type" name="service_type" class="form-control" required>
+                <option value="Food & Beverage">Food & Beverage</option>
+                <option value="Housekeeping">Housekeeping / Cleaning</option>
+                <option value="Laundry">Laundry Service</option>
+                <option value="Maintenance">Maintenance Issue</option>
+                <option value="Other">Other</option>
+            </select>
+        </div>
+        
+        <div class="form-group">
+            <label for="request_details">Details (Optional)</label>
+            <textarea id="request_details" name="request_details" class="form-control" rows="4" placeholder="E.g., Please bring extra towels..."></textarea>
+        </div>
+        
+        <button type="submit" class="btn-primary">Submit Request</button>
+    </form>
+</div>
+
+<h3 style="margin-bottom: 20px;">Your Request History</h3>
+<div class="glass-panel" style="padding: 20px;">
+    {% if requests %}
+    <div class="table-responsive">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Date/Time</th>
+                    <th>Type</th>
+                    <th>Details</th>
+                    <th>Status</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for req in requests %}
+                <tr>
+                    <td>{{ req.created_at.strftime('%Y-%m-%d %H:%M') }}</td>
+                    <td>{{ req.service_type }}</td>
+                    <td>{{ req.request_details }}</td>
+                    <td>
+                        {% if req.status == 'pending' %}
+                            <span class="badge badge-pending">Pending</span>
+                        {% elif req.status == 'in_progress' %}
+                            <span class="badge badge-active">In Progress</span>
+                        {% else %}
+                            <span class="badge badge-completed">Completed</span>
+                        {% endif %}
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    {% else %}
+    <p style="text-align: center; color: var(--text-secondary); padding: 20px;">You haven't made any service requests during this stay.</p>
+    {% endif %}
+</div>
+{% endblock %}

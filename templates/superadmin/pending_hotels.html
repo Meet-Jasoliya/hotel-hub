@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+
+{% block title %}Super Admin - Pending Hotels{% endblock %}
+{% block page_title %}Review Hotel Registrations{% endblock %}
+
+{% block content %}
+<div class="glass-panel" style="padding: 30px;">
+    <h2 style="margin-bottom: 20px;">Pending Hotels</h2>
+    
+    {% if hotels %}
+    <div class="table-responsive">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Hotel Name</th>
+                    <th>Owner (ID)</th>
+                    <th>Address</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for hotel in hotels %}
+                <tr>
+                    <td>#{{ hotel.id }}</td>
+                    <td><strong>{{ hotel.name }}</strong></td>
+                    <td>{{ hotel.owner.username }} ({{ hotel.owner.id }})</td>
+                    <td>{{ hotel.address }}</td>
+                    <td>
+                        <a href="{{ url_for('superadmin.approve_hotel', hotel_id=hotel.id) }}" class="badge badge-approved" style="text-decoration: none; padding: 8px 12px; display: inline-block; margin-right: 5px;"><i class="fa-solid fa-check"></i> Approve</a>
+                        <a href="{{ url_for('superadmin.reject_hotel', hotel_id=hotel.id) }}" class="badge badge-rejected" style="text-decoration: none; padding: 8px 12px; display: inline-block;"><i class="fa-solid fa-xmark"></i> Reject</a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    {% else %}
+    <div style="text-align: center; padding: 40px; color: var(--text-secondary);">
+        <i class="fa-solid fa-clipboard-check" style="font-size: 48px; margin-bottom: 20px; opacity: 0.5;"></i>
+        <h3>No pending registrations</h3>
+        <p>All caught up! There are currently no hotels waiting for approval.</p>
+    </div>
+    {% endif %}
+</div>
+{% endblock %}

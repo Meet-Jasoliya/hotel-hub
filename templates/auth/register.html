@@ -1,0 +1,79 @@
+{% extends "base.html" %}
+
+{% block title %}Register - Hotel Hub{% endblock %}
+
+{% block content %}
+<div style="display: flex; flex-grow: 1;">
+    <!-- Right Image Section (Swapped for Register) -->
+    <div style="flex: 1.2; background-image: url('{{ url_for('static', filename='img/hotel2.png') }}'); background-size: cover; background-position: center; position: relative; display: none; @media(min-width: 900px) { display: block; }">
+        <div style="position: absolute; top: 0; left: 0; right: 0; bottom: 0; background: linear-gradient(to bottom, rgba(0,0,0,0.1), rgba(0,0,0,0.6));"></div>
+        <div style="position: absolute; bottom: 60px; right: 60px; color: white; max-width: 500px; text-align: right;">
+            <h2 style="font-size: 36px; font-weight: 700; margin-bottom: 16px; line-height: 1.2;">Join our exclusive community.</h2>
+            <p style="font-size: 18px; opacity: 0.9;">Whether you're looking for your next dream stay or listing your own luxury property, Hotel Hub is your gateway.</p>
+        </div>
+    </div>
+
+    <!-- Left Form Section -->
+    <div style="flex: 1; display: flex; align-items: center; justify-content: center; padding: 40px; background: var(--bg-light);">
+        <div style="width: 100%; max-width: 440px;">
+            <div style="text-align: center; margin-bottom: 40px;">
+                <h1 style="font-size: 32px; font-weight: 700; margin-bottom: 10px;">Create an Account</h1>
+                <p style="color: var(--text-secondary); font-size: 16px;">Sign up to get started with Hotel Hub.</p>
+            </div>
+            
+            <form method="POST" action="{{ url_for('auth.register') }}">
+                <div class="form-group" style="margin-bottom: 20px;">
+                    <label for="username" style="font-size: 14px; font-weight: 600; color: var(--text-primary); margin-bottom: 8px; display: block;">Username</label>
+                    <div style="position: relative;">
+                        <i class="fa-regular fa-user" style="position: absolute; left: 16px; top: 50%; transform: translateY(-50%); color: var(--text-secondary);"></i>
+                        <input type="text" id="username" name="username" class="form-control" placeholder="Choose a username" required style="padding-left: 44px; height: 52px; border-radius: 12px; font-size: 15px;">
+                    </div>
+                </div>
+
+                <div class="form-group" style="margin-bottom: 20px;">
+                    <label for="email" style="font-size: 14px; font-weight: 600; color: var(--text-primary); margin-bottom: 8px; display: block;">Email Address</label>
+                    <div style="position: relative;">
+                        <i class="fa-regular fa-envelope" style="position: absolute; left: 16px; top: 50%; transform: translateY(-50%); color: var(--text-secondary);"></i>
+                        <input type="email" id="email" name="email" class="form-control" placeholder="Enter your email" required style="padding-left: 44px; height: 52px; border-radius: 12px; font-size: 15px;">
+                    </div>
+                </div>
+                
+                <div class="form-group" style="margin-bottom: 20px;">
+                    <label for="password" style="font-size: 14px; font-weight: 600; color: var(--text-primary); margin-bottom: 8px; display: block;">Password</label>
+                    <div style="position: relative;">
+                        <i class="fa-solid fa-lock" style="position: absolute; left: 16px; top: 50%; transform: translateY(-50%); color: var(--text-secondary);"></i>
+                        <input type="password" id="password" name="password" class="form-control" placeholder="Create a password" required style="padding-left: 44px; height: 52px; border-radius: 12px; font-size: 15px;">
+                    </div>
+                </div>
+                
+                <div class="form-group" style="margin-bottom: 32px;">
+                    <label for="role" style="font-size: 14px; font-weight: 600; color: var(--text-primary); margin-bottom: 8px; display: block;">I am a...</label>
+                    <div style="position: relative;">
+                        <i class="fa-solid fa-user-tag" style="position: absolute; left: 16px; top: 50%; transform: translateY(-50%); color: var(--text-secondary); z-index: 2;"></i>
+                        <select id="role" name="role" class="form-control" required style="padding-left: 44px; height: 52px; border-radius: 12px; font-size: 15px; appearance: none; background-color: #f8fafc; cursor: pointer;">
+                            <option value="customer">Customer (Looking to book rooms)</option>
+                            <option value="hoteladmin">Hotel Owner (Looking to list my hotel)</option>
+                        </select>
+                        <i class="fa-solid fa-chevron-down" style="position: absolute; right: 16px; top: 50%; transform: translateY(-50%); color: var(--text-secondary); pointer-events: none;"></i>
+                    </div>
+                </div>
+                
+                <button type="submit" class="btn-primary" style="width: 100%; height: 52px; border-radius: 12px; font-size: 16px; margin-top: 10px;">Register Account</button>
+            </form>
+            
+            <p style="text-align: center; margin-top: 32px; color: var(--text-secondary); font-size: 15px;">
+                Already have an account? <a href="{{ url_for('auth.login') }}" class="accent-text" style="font-weight: 600;">Sign in here</a>
+            </p>
+        </div>
+    </div>
+</div>
+
+<!-- Inline CSS to handle responsive display for the split screen -->
+<style>
+    @media (max-width: 900px) {
+        div[style*="flex: 1.2"] {
+            display: none !important;
+        }
+    }
+</style>
+{% endblock %}

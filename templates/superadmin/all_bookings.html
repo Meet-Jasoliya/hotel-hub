@@ -1,0 +1,73 @@
+{% extends "base.html" %}
+
+{% block title %}Super Admin - All Bookings{% endblock %}
+{% block page_title %}Platform Bookings{% endblock %}
+
+{% block content %}
+<div class="glass-panel" style="padding: 30px;">
+    <h2 style="margin-bottom: 20px;">All Platform Bookings</h2>
+    
+    {% if bookings %}
+    <div class="table-responsive">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Booking ID</th>
+                    <th>Hotel</th>
+                    <th>Customer</th>
+                    <th>Dates</th>
+                    <th>Total Price</th>
+                    <th>Status</th>
+                    <th>Proof</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for booking in bookings %}
+                <tr>
+                    <td>#{{ booking.id }}</td>
+                    <td><strong>{{ booking.hotel.name }}</strong></td>
+                    <td>{{ booking.customer.username }}</td>
+                    <td><span style="font-size: 12px; display: block;">{{ booking.check_in_date }}<br>to<br>{{ booking.check_out_date }}</span></td>
+                    <td>₹{{ "%.2f"|format(booking.total_price) }}</td>
+                    <td>
+                        {% if booking.status == 'pending' %}
+                            <span class="badge" style="background: #f59e0b; color: white;">Pending</span>
+                        {% elif booking.status == 'active' %}
+                            <span class="badge badge-active">Active</span>
+                        {% elif booking.status == 'completed' %}
+                            <span class="badge badge-completed">Completed</span>
+                        {% elif booking.status == 'rejected' %}
+                            <span class="badge badge-rejected">Rejected</span>
+                        {% else %}
+                            <span class="badge badge-rejected">Cancelled</span>
+                        {% endif %}
+                    </td>
+                    <td>
+                        {% if booking.identity_proof %}
+                            <a href="{{ url_for('static', filename=booking.identity_proof) }}" target="_blank" style="color: var(--accent-primary); font-size: 14px;"><i class="fa-solid fa-id-card"></i> View</a>
+                        {% else %}
+                            <span style="color: var(--text-secondary); font-size: 14px;">None</span>
+                        {% endif %}
+                    </td>
+                    <td>
+                        {% if booking.status in ['active', 'completed'] %}
+                            <a href="{{ url_for('superadmin.generate_bill', booking_id=booking.id) }}" target="_blank" class="btn-primary" style="padding: 4px 8px; font-size: 12px;"><i class="fa-solid fa-file-invoice"></i> Bill</a>
+                        {% else %}
+                            <span style="color: var(--text-secondary);">-</span>
+                        {% endif %}
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    {% else %}
+    <div style="text-align: center; padding: 40px; color: var(--text-secondary);">
+        <i class="fa-solid fa-book-open" style="font-size: 48px; margin-bottom: 20px; opacity: 0.5;"></i>
+        <h3>No bookings yet</h3>
+        <p>There are no bookings on the platform.</p>
+    </div>
+    {% endif %}
+</div>
+{% endblock %}

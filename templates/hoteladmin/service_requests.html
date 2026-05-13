@@ -1,0 +1,61 @@
+{% extends "base.html" %}
+
+{% block title %}Hotel Admin - Service Requests{% endblock %}
+{% block page_title %}In-Stay Service Requests{% endblock %}
+
+{% block content %}
+<div class="glass-panel" style="padding: 30px;">
+    <h2 style="margin-bottom: 20px;">Service Requests</h2>
+    
+    {% if requests %}
+    <div class="table-responsive">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Date/Time</th>
+                    <th>Room</th>
+                    <th>Service Type</th>
+                    <th>Details</th>
+                    <th>Status</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for req in requests %}
+                <tr>
+                    <td>{{ req.created_at.strftime('%Y-%m-%d %H:%M') }}</td>
+                    <td><strong>{{ req.booking.room.room_number }}</strong></td>
+                    <td><span class="badge" style="background: rgba(255,255,255,0.1);">{{ req.service_type }}</span></td>
+                    <td>{{ req.request_details }}</td>
+                    <td>
+                        {% if req.status == 'pending' %}
+                            <span class="badge badge-pending">Pending</span>
+                        {% elif req.status == 'in_progress' %}
+                            <span class="badge badge-active">In Progress</span>
+                        {% else %}
+                            <span class="badge badge-completed">Completed</span>
+                        {% endif %}
+                    </td>
+                    <td>
+                        {% if req.status == 'pending' %}
+                            <a href="{{ url_for('hoteladmin.update_request', request_id=req.id, status='in_progress') }}" class="btn-primary" style="padding: 4px 8px; font-size: 12px;">Start</a>
+                        {% elif req.status == 'in_progress' %}
+                            <a href="{{ url_for('hoteladmin.update_request', request_id=req.id, status='completed') }}" class="btn-primary" style="padding: 4px 8px; font-size: 12px; background: #00e676; color: #000;">Complete</a>
+                        {% else %}
+                            <span style="color: var(--text-secondary);"><i class="fa-solid fa-check-circle"></i> Done</span>
+                        {% endif %}
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    {% else %}
+    <div style="text-align: center; padding: 40px; color: var(--text-secondary);">
+        <i class="fa-solid fa-bell-concierge" style="font-size: 48px; margin-bottom: 20px; opacity: 0.5;"></i>
+        <h3>No service requests</h3>
+        <p>Guests have not made any in-stay requests.</p>
+    </div>
+    {% endif %}
+</div>
+{% endblock %}

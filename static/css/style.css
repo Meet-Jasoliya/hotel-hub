@@ -1,0 +1,492 @@
+/* ==========================================================================
+   Hotel Hub - Modern Travel Landing Page Design System
+   ========================================================================== */
+
+:root {
+    /* Color Palette - Light & Vibrant */
+    --bg-light: #ffffff;
+    --bg-gray: #f8faff;
+    --text-primary: #1e293b;
+    --text-secondary: #64748b;
+    --accent-primary: #3b82f6; /* Azure Blue */
+    --accent-hover: #2563eb;
+    --border-color: #e2e8f0;
+    
+    /* Typography */
+    --font-family: 'Outfit', sans-serif;
+    
+    /* Transitions */
+    --transition-speed: 0.3s;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: var(--font-family);
+    background-color: var(--bg-gray);
+    color: var(--text-primary);
+    min-height: 100vh;
+    overflow-x: hidden;
+}
+
+a {
+    text-decoration: none;
+    color: var(--text-primary);
+    transition: color var(--transition-speed);
+}
+
+ul {
+    list-style: none;
+}
+
+/* ==========================================================================
+   Utility Classes
+   ========================================================================== */
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 24px;
+}
+
+.white-panel {
+    background: var(--bg-light);
+    border: 1px solid var(--border-color);
+    border-radius: 16px;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
+}
+
+.accent-text {
+    color: var(--accent-primary);
+}
+
+.btn-primary {
+    background: var(--accent-primary);
+    color: white;
+    border: none;
+    padding: 12px 24px;
+    border-radius: 10px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all var(--transition-speed);
+    display: inline-block;
+    text-align: center;
+}
+
+.btn-primary:hover {
+    background: var(--accent-hover);
+    transform: translateY(-2px);
+    box-shadow: 0 10px 15px -3px rgba(59, 130, 246, 0.3);
+    color: white;
+}
+
+.btn-outline {
+    background: transparent;
+    color: var(--accent-primary);
+    border: 2px solid var(--accent-primary);
+    padding: 10px 22px;
+    border-radius: 10px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all var(--transition-speed);
+    display: inline-block;
+}
+
+.btn-outline:hover {
+    background: var(--accent-primary);
+    color: white;
+}
+
+/* ==========================================================================
+   Layout: App Container
+   ========================================================================== */
+
+.app-container {
+    display: flex;
+    min-height: 100vh;
+}
+
+.customer-layout {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+}
+
+/* ==========================================================================
+   Top Navigation (Customers/Guests)
+   ========================================================================== */
+
+.top-nav {
+    background: var(--bg-light);
+    border-bottom: 1px solid var(--border-color);
+    padding: 16px 40px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+}
+
+.nav-brand h2 {
+    font-size: 24px;
+    font-weight: 700;
+    color: var(--text-primary);
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.top-nav-links {
+    display: flex;
+    gap: 32px;
+    align-items: center;
+}
+
+.top-nav-links a {
+    font-weight: 500;
+    color: var(--text-secondary);
+}
+
+.top-nav-links a:hover, .top-nav-links a.active {
+    color: var(--accent-primary);
+}
+
+.user-profile-menu {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+}
+
+/* ==========================================================================
+   Sidebar Navigation (Admins)
+   ========================================================================== */
+
+.sidebar {
+    width: 280px;
+    background: var(--bg-light);
+    border-right: 1px solid var(--border-color);
+    display: flex;
+    flex-direction: column;
+    padding: 24px;
+    z-index: 10;
+}
+
+.sidebar-header {
+    margin-bottom: 40px;
+    padding-bottom: 20px;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.sidebar-header h2 {
+    font-size: 24px;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.nav-links {
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.nav-links li a {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    padding: 14px 16px;
+    border-radius: 10px;
+    font-weight: 500;
+    color: var(--text-secondary);
+}
+
+.nav-links li a i {
+    font-size: 18px;
+    width: 24px;
+    text-align: center;
+}
+
+.nav-links li a:hover, .nav-links li a.active {
+    background: rgba(59, 130, 246, 0.1);
+    color: var(--accent-primary);
+}
+
+.sidebar-footer {
+    margin-top: auto;
+    padding-top: 20px;
+    border-top: 1px solid var(--border-color);
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.user-info {
+    display: flex;
+    flex-direction: column;
+}
+
+.user-name {
+    font-weight: 600;
+    font-size: 16px;
+}
+
+.user-role {
+    font-size: 13px;
+    color: var(--text-secondary);
+}
+
+.logout-btn {
+    color: #ef4444;
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px;
+    border-radius: 8px;
+}
+
+.logout-btn:hover {
+    background: #fef2f2;
+}
+
+/* ==========================================================================
+   Main Content Area
+   ========================================================================== */
+
+.main-content {
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    overflow-y: auto;
+}
+
+.content-wrapper {
+    padding: 40px;
+    flex-grow: 1;
+    max-width: 1400px;
+    margin: 0 auto;
+    width: 100%;
+}
+
+/* ==========================================================================
+   Hero Section & Search (Travel Landing)
+   ========================================================================== */
+
+.hero-section {
+    position: relative;
+    height: 500px;
+    border-radius: 24px;
+    margin: 24px 40px 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    background-size: cover;
+    background-position: center;
+}
+
+.hero-section::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: linear-gradient(to bottom, rgba(0,0,0,0.3), rgba(0,0,0,0.6));
+    z-index: 1;
+    border-radius: inherit;
+}
+
+.hero-content {
+    position: relative;
+    z-index: 2;
+    color: white;
+    max-width: 800px;
+    padding: 0 20px;
+}
+
+.hero-content h1 {
+    font-size: 56px;
+    font-weight: 700;
+    margin-bottom: 20px;
+    line-height: 1.2;
+}
+
+.hero-content p {
+    font-size: 20px;
+    opacity: 0.9;
+    margin-bottom: 40px;
+}
+
+.floating-search-bar {
+    background: white;
+    padding: 20px;
+    border-radius: 100px; /* Pill shape */
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    box-shadow: 0 20px 40px rgba(0,0,0,0.2);
+    position: absolute;
+    bottom: -40px; /* Overflow slightly */
+    left: 50%;
+    transform: translateX(-50%);
+    width: 90%;
+    max-width: 1000px;
+    z-index: 10;
+}
+
+.search-input-group {
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+    border-right: 1px solid var(--border-color);
+    padding: 0 20px;
+    text-align: left;
+}
+
+.search-input-group:last-of-type {
+    border-right: none;
+}
+
+.search-input-group label {
+    font-size: 12px;
+    font-weight: 700;
+    color: var(--text-primary);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 4px;
+}
+
+.search-input-group input {
+    border: none;
+    outline: none;
+    font-size: 16px;
+    color: var(--text-secondary);
+    font-family: var(--font-family);
+    background: transparent;
+}
+
+.search-btn {
+    background: var(--accent-primary);
+    color: white;
+    border: none;
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    font-size: 20px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s;
+    flex-shrink: 0;
+}
+
+.search-btn:hover {
+    transform: scale(1.05);
+    background: var(--accent-hover);
+}
+
+/* ==========================================================================
+   Hotel Cards
+   ========================================================================== */
+
+.hotels-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    gap: 32px;
+    margin-top: 80px; /* Space for floating search bar */
+    padding: 0 40px;
+}
+
+.hotel-card {
+    background: white;
+    border-radius: 20px;
+    overflow: hidden;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.05);
+    transition: transform 0.3s;
+    border: 1px solid var(--border-color);
+}
+
+.hotel-card:hover {
+    transform: translateY(-5px);
+}
+
+.hotel-card-img {
+    height: 220px;
+    width: 100%;
+    object-fit: cover;
+}
+
+.hotel-card-body {
+    padding: 24px;
+}
+
+.hotel-card-title {
+    font-size: 20px;
+    font-weight: 700;
+    margin-bottom: 8px;
+}
+
+.hotel-card-location {
+    color: var(--text-secondary);
+    font-size: 14px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    margin-bottom: 16px;
+}
+
+.hotel-card-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-top: 1px solid var(--border-color);
+    padding-top: 16px;
+}
+
+/* ==========================================================================
+   Forms, Tables, Alerts (Updated to Light Theme)
+   ========================================================================== */
+
+.flash-messages {
+    padding: 20px 40px;
+    padding-bottom: 0;
+}
+
+.alert {
+    padding: 16px 24px;
+    margin-bottom: 16px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    border-radius: 12px;
+}
+
+.alert-success { background: #ecfdf5; color: #059669; border-left: 4px solid #10b981; }
+.alert-danger, .alert-error { background: #fef2f2; color: #dc2626; border-left: 4px solid #ef4444; }
+.alert-info { background: #eff6ff; color: #2563eb; border-left: 4px solid var(--accent-primary); }
+.alert-warning { background: #fffbeb; color: #d97706; border-left: 4px solid #f59e0b; }
+
+.form-group { margin-bottom: 20px; }
+.form-group label { display: block; margin-bottom: 8px; font-weight: 500; color: var(--text-primary); }
+.form-control {
+    width: 100%; padding: 14px 16px; background: #f8fafc;
+    border: 1px solid var(--border-color); border-radius: 10px;
+    color: var(--text-primary); font-family: var(--font-family); transition: all var(--transition-speed);
+}
+.form-control:focus { outline: none; border-color: var(--accent-primary); box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.2); }
+
+.table { width: 100%; border-collapse: collapse; margin-top: 20px; }
+.table th, .table td { padding: 16px; text-align: left; border-bottom: 1px solid var(--border-color); }
+.table th { color: var(--text-secondary); font-weight: 600; text-transform: uppercase; font-size: 12px; letter-spacing: 1px; }
+.table tbody tr:hover { background: #f8fafc; }
+
+.badge { padding: 6px 12px; border-radius: 6px; font-size: 12px; font-weight: 600; text-transform: uppercase; display: inline-block; }
+.badge-pending { background: #fffbeb; color: #d97706; }
+.badge-approved, .badge-active, .badge-completed { background: #ecfdf5; color: #059669; }
+.badge-rejected { background: #fef2f2; color: #dc2626; }

@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Hotel Hub{% endblock %}</title>
+    <meta name="description" content="Hotel Hub - Smart Hotel Management & Booking Platform">
+    <!-- FontAwesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts: Outfit -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+    
+    {% set is_admin = current_user.is_authenticated and current_user.role in ['superadmin', 'hoteladmin'] %}
+
+    <div class="app-container {% if not is_admin %}customer-layout{% endif %}">
+        
+        {% if is_admin %}
+        <!-- Sidebar Navigation (Admins Only) -->
+        <nav class="sidebar">
+            <div class="sidebar-header">
+                <h2><i class="fa-solid fa-hotel accent-text"></i> Hotel Hub</h2>
+            </div>
+            
+            <ul class="nav-links">
+                {% if current_user.role == 'superadmin' %}
+                    <li><a href="{{ url_for('superadmin.dashboard') }}"><i class="fa-solid fa-chart-line"></i> Dashboard</a></li>
+                    <li><a href="{{ url_for('superadmin.pending_hotels') }}"><i class="fa-solid fa-building-circle-check"></i> Pending Hotels</a></li>
+                    <li><a href="{{ url_for('superadmin.all_users') }}"><i class="fa-solid fa-users"></i> All Users</a></li>
+                {% elif current_user.role == 'hoteladmin' %}
+                    <li><a href="{{ url_for('hoteladmin.dashboard') }}"><i class="fa-solid fa-chart-pie"></i> Hotel Dashboard</a></li>
+                    <li><a href="{{ url_for('hoteladmin.manage_rooms') }}"><i class="fa-solid fa-bed"></i> Manage Rooms</a></li>
+                    <li><a href="{{ url_for('hoteladmin.bookings') }}"><i class="fa-solid fa-book-open"></i> Bookings</a></li>
+                    <li><a href="{{ url_for('hoteladmin.service_requests') }}"><i class="fa-solid fa-bell-concierge"></i> Service Requests</a></li>
+                {% endif %}
+            </ul>
+            
+            <div class="sidebar-footer">
+                <div class="user-info">
+                    <span class="user-name">{{ current_user.username }}</span>
+                    <span class="user-role">{{ current_user.role | capitalize }}</span>
+                </div>
+                <a href="{{ url_for('auth.logout') }}" class="logout-btn"><i class="fa-solid fa-right-from-bracket"></i> Logout</a>
+            </div>
+        </nav>
+        {% else %}
+        <!-- Top Navigation (Customers & Guests) -->
+        <nav class="top-nav">
+            <div class="nav-brand">
+                <a href="{{ url_for('index') }}" style="display: flex; align-items: center; gap: 12px;">
+                    <i class="fa-solid fa-hotel accent-text"></i>
+                    <h2 style="margin: 0; font-size: 24px; font-weight: 700; color: var(--text-primary);">Hotel Hub</h2>
+                </a>
+            </div>
+            
+            <div class="top-nav-links">
+                <a href="{{ url_for('index') }}" class="{% if request.endpoint == 'index' %}active{% endif %}">Home</a>
+                <a href="{{ url_for('destinations') }}" class="{% if request.endpoint == 'destinations' %}active{% endif %}">Destinations</a>
+                <a href="{{ url_for('about') }}" class="{% if request.endpoint == 'about' %}active{% endif %}">About Us</a>
+                {% if current_user.is_authenticated and current_user.role == 'customer' %}
+                    <a href="{{ url_for('customer.find_hotels') }}" class="{% if request.endpoint == 'customer.find_hotels' %}active{% endif %}">Find Hotels</a>
+                    <a href="{{ url_for('customer.my_bookings') }}" class="{% if request.endpoint == 'customer.my_bookings' %}active{% endif %}">My Bookings</a>
+                {% endif %}
+            </div>
+            
+            <div class="user-profile-menu">
+                {% if current_user.is_authenticated %}
+                    <div style="display: flex; align-items: center; gap: 20px;">
+                        <a href="{{ url_for('auth.profile') }}" style="font-weight: 500; display: flex; align-items: center; gap: 8px;">
+                            <i class="fa-solid fa-circle-user" style="font-size: 20px; color: var(--accent-primary);"></i>
+                            Hi, {{ current_user.username }}
+                        </a>
+                        <a href="{{ url_for('auth.logout') }}" class="btn-outline" style="border-color: #ef4444; color: #ef4444;">Sign Out</a>
+                    </div>
+                {% else %}
+                    <a href="{{ url_for('auth.login') }}" style="font-weight: 600;">Log in</a>
+                    <a href="{{ url_for('auth.register') }}" class="btn-primary">Sign up</a>
+                {% endif %}
+            </div>
+        </nav>
+        {% endif %}
+
+        <!-- Main Content Area -->
+        <main class="main-content">
+            <!-- Flash Messages -->
+            <div class="flash-messages" style="max-width: 1400px; margin: 0 auto; width: 100%;">
+                {% with messages = get_flashed_messages(with_categories=true) %}
+                  {% if messages %}
+                    {% for category, message in messages %}
+                      <div class="alert alert-{{ category }}">
+                          <i class="fa-solid fa-circle-info"></i> {{ message }}
+                      </div>
+                    {% endfor %}
+                  {% endif %}
+                {% endwith %}
+            </div>
+
+            <!-- Dynamic Page Content -->
+            {% block content %}
+            {% endblock %}
+        </main>
+    </div>
+</body>
+</html>

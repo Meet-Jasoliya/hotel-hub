@@ -1,0 +1,3 @@
+Super Admin: admin@hotelhub.com / admin123
+Hotel Admin: hotel@hotelhub.com / hotel123
+Customer: customer@example.com / guest123

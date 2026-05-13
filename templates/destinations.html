@@ -1,0 +1,52 @@
+{% extends "base.html" %}
+
+{% block title %}Destinations - Hotel Hub India{% endblock %}
+
+{% block content %}
+<div class="content-wrapper">
+    <div style="text-align: center; margin-bottom: 50px;">
+        <h1 style="font-size: 40px; font-weight: 700; margin-bottom: 15px;">Discover Incredible India</h1>
+        <p style="font-size: 18px; color: var(--text-secondary); max-width: 600px; margin: 0 auto;">Explore the rich heritage, vibrant cultures, and unparalleled luxury across our top destinations.</p>
+    </div>
+
+    <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(350px, 1fr)); gap: 30px;">
+        
+        <a href="{{ url_for('customer.find_hotels', query='Rajasthan') }}" style="display: block; color: inherit;">
+            <div class="white-panel" style="overflow: hidden; display: flex; flex-direction: column; transition: transform 0.3s; height: 100%;">
+                <div style="height: 200px; background: linear-gradient(to right, #ff9933, #ffffff); display: flex; align-items: center; justify-content: center;">
+                    <i class="fa-solid fa-place-of-worship" style="font-size: 64px; color: white; opacity: 0.8;"></i>
+                </div>
+                <div style="padding: 30px;">
+                    <h3 style="font-size: 24px; margin-bottom: 10px;">Rajasthan</h3>
+                    <p style="color: var(--text-secondary); line-height: 1.6;">Experience the royal legacy of India. Stay in authentic, centuries-old palaces converted into ultra-luxury heritage hotels in Jaipur, Udaipur, and Jodhpur.</p>
+                </div>
+            </div>
+        </a>
+        
+        <a href="{{ url_for('customer.find_hotels', query='Goa') }}" style="display: block; color: inherit;">
+            <div class="white-panel" style="overflow: hidden; display: flex; flex-direction: column; transition: transform 0.3s; height: 100%;">
+                <div style="height: 200px; background: linear-gradient(to right, #138808, #ffffff); display: flex; align-items: center; justify-content: center;">
+                    <i class="fa-solid fa-umbrella-beach" style="font-size: 64px; color: white; opacity: 0.8;"></i>
+                </div>
+                <div style="padding: 30px;">
+                    <h3 style="font-size: 24px; margin-bottom: 10px;">Kerala & Goa</h3>
+                    <p style="color: var(--text-secondary); line-height: 1.6;">Unwind in paradise. From the serene backwaters and houseboat luxury of Kerala to the vibrant, sun-kissed beach resorts of Goa.</p>
+                </div>
+            </div>
+        </a>
+        
+        <a href="{{ url_for('customer.find_hotels', query='Mumbai') }}" style="display: block; color: inherit;">
+            <div class="white-panel" style="overflow: hidden; display: flex; flex-direction: column; transition: transform 0.3s; height: 100%;">
+                <div style="height: 200px; background: linear-gradient(to right, #000080, #ffffff); display: flex; align-items: center; justify-content: center;">
+                    <i class="fa-solid fa-city" style="font-size: 64px; color: white; opacity: 0.8;"></i>
+                </div>
+                <div style="padding: 30px;">
+                    <h3 style="font-size: 24px; margin-bottom: 10px;">Mumbai & Delhi</h3>
+                    <p style="color: var(--text-secondary); line-height: 1.6;">The metropolitan heartbeat. Discover modern 5-star skyscraper suites, world-class dining, and premium business hospitality.</p>
+                </div>
+            </div>
+        </a>
+
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,84 @@
+{% extends "base.html" %}
+
+{% block title %}Hotel Hub - Find Your Next Dream Stay{% endblock %}
+
+{% block content %}
+<!-- Hero Section -->
+<section class="hero-section" style="background-image: url('{{ url_for('static', filename='img/hero.png') }}');">
+    <div class="hero-content">
+        <h1>Find Your Next Dream Stay</h1>
+        <p>Discover luxurious Indian hotels, breathtaking resorts, and royal palaces. Your perfect getaway starts here.</p>
+    </div>
+    
+    <!-- Floating Search Bar -->
+    <div class="floating-search-bar" style="padding: 10px 20px;">
+        <form action="{{ url_for('customer.find_hotels') }}" method="GET" style="display: flex; width: 100%; align-items: center; gap: 20px;">
+            <div class="search-input-group" style="padding: 10px 20px;">
+                <label>Location</label>
+                <input type="text" name="query" placeholder="E.g., Udaipur, Mumbai, Goa">
+            </div>
+            <div class="search-input-group" style="padding: 10px 20px;">
+                <label>Check in</label>
+                <input type="date" style="color: var(--text-primary);">
+            </div>
+            <div class="search-input-group" style="padding: 10px 20px;">
+                <label>Check out</label>
+                <input type="date" style="color: var(--text-primary);">
+            </div>
+            <button type="submit" class="search-btn" title="Search Hotels">
+                <i class="fa-solid fa-search"></i>
+            </button>
+        </form>
+    </div>
+</section>
+
+<!-- Main Content Wrapper -->
+<div class="content-wrapper">
+    <h2 style="font-size: 32px; font-weight: 700; margin-bottom: 24px; text-align: center;">Featured Destinations</h2>
+    <p style="text-align: center; color: var(--text-secondary); margin-bottom: 40px; font-size: 18px;">Experience the epitome of luxury and heritage.</p>
+    
+    <!-- Cards Grid -->
+    <div class="hotels-grid" style="margin-top: 0;">
+        {% if hotels %}
+            {% for hotel in hotels %}
+            <div class="hotel-card">
+                {% if hotel.image_path %}
+                    <img src="{{ url_for('static', filename=hotel.image_path) }}" class="hotel-card-img" alt="{{ hotel.name }}">
+                {% else %}
+                    <!-- Fallback images if no actual uploads -->
+                    {% if loop.index % 2 == 0 %}
+                        <img src="{{ url_for('static', filename='img/hotel2.png') }}" class="hotel-card-img" alt="Hotel">
+                    {% else %}
+                        <img src="{{ url_for('static', filename='img/hotel1.png') }}" class="hotel-card-img" alt="Hotel">
+                    {% endif %}
+                {% endif %}
+                
+                <div class="hotel-card-body">
+                    <h3 class="hotel-card-title">{{ hotel.name }}</h3>
+                    <div class="hotel-card-location"><i class="fa-solid fa-location-dot"></i> {{ hotel.address }}</div>
+                    <p style="color: var(--text-secondary); font-size: 14px; margin-bottom: 16px; line-height: 1.5; height: 63px; overflow: hidden;">
+                        {{ hotel.description[:120] }}...
+                    </p>
+                    
+                    <div style="display: flex; gap: 8px; margin-bottom: 16px; flex-wrap: wrap;">
+                        <span class="badge badge-active" style="background: #e0f2fe; color: #0284c7;"><i class="fa-solid fa-wifi"></i> Free Wifi</span>
+                        <span class="badge badge-active" style="background: #e0f2fe; color: #0284c7;"><i class="fa-solid fa-water-ladder"></i> Pool</span>
+                        <span class="badge badge-active" style="background: #e0f2fe; color: #0284c7;"><i class="fa-solid fa-utensils"></i> Dining</span>
+                    </div>
+
+                    <div class="hotel-card-footer">
+                        <div style="font-weight: 600; font-size: 18px;">From <span class="accent-text">₹{{ hotel.rooms[0].price_per_night if hotel.rooms else 'N/A' }}</span>/night</div>
+                        <a href="{{ url_for('customer.view_hotel', hotel_id=hotel.id) }}" class="btn-outline" style="padding: 6px 14px; font-size: 14px;">View Deal</a>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        {% else %}
+            <!-- Demo Fallback if no hotels approved yet -->
+            <div class="white-panel" style="padding: 60px; text-align: center; grid-column: 1 / -1;">
+                <p>No featured hotels available right now. Please check back later.</p>
+            </div>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

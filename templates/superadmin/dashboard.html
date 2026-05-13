@@ -1,0 +1,34 @@
+{% extends "base.html" %}
+
+{% block title %}Super Admin - Dashboard{% endblock %}
+{% block page_title %}Platform Overview{% endblock %}
+
+{% block content %}
+<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 24px; margin-bottom: 40px;">
+    <!-- Metric Cards -->
+    <div class="glass-panel" style="padding: 24px; text-align: center;">
+        <i class="fa-solid fa-users accent-text" style="font-size: 32px; margin-bottom: 16px;"></i>
+        <h3 style="color: var(--text-secondary); margin-bottom: 8px;">Total Users</h3>
+        <h2 style="font-size: 36px;">{{ total_users }}</h2>
+    </div>
+    
+    <div class="glass-panel" style="padding: 24px; text-align: center;">
+        <i class="fa-solid fa-building-circle-check accent-text" style="font-size: 32px; margin-bottom: 16px;"></i>
+        <h3 style="color: var(--text-secondary); margin-bottom: 8px;">Approved Hotels</h3>
+        <h2 style="font-size: 36px;">{{ approved_hotels }}</h2>
+    </div>
+    
+    <div class="glass-panel" style="padding: 24px; text-align: center; border-color: rgba(255, 234, 0, 0.3);">
+        <i class="fa-solid fa-clock" style="font-size: 32px; margin-bottom: 16px; color: #ffea00;"></i>
+        <h3 style="color: var(--text-secondary); margin-bottom: 8px;">Pending Approvals</h3>
+        <h2 style="font-size: 36px;">{{ pending_hotels }}</h2>
+    </div>
+</div>
+
+<div class="glass-panel" style="padding: 30px;">
+    <h2 style="margin-bottom: 20px;">Quick Actions</h2>
+    <a href="{{ url_for('superadmin.pending_hotels') }}" class="btn-primary"><i class="fa-solid fa-list-check"></i> Review Pending Hotels</a>
+    <a href="{{ url_for('superadmin.all_users') }}" class="btn-primary" style="margin-left: 10px; background: rgba(255,255,255,0.1); color: white;"><i class="fa-solid fa-users"></i> Manage Users</a>
+    <a href="{{ url_for('superadmin.all_bookings') }}" class="btn-primary" style="margin-left: 10px; background: rgba(255,255,255,0.1); color: white;"><i class="fa-solid fa-book-open"></i> All Bookings</a>
+</div>
+{% endblock %}

@@ -1,0 +1,59 @@
+{% extends "base.html" %}
+
+{% block title %}Login - Hotel Hub{% endblock %}
+
+{% block content %}
+<div style="display: flex; flex-grow: 1;">
+    <!-- Left Form Section -->
+    <div style="flex: 1; display: flex; align-items: center; justify-content: center; padding: 40px; background: var(--bg-light);">
+        <div style="width: 100%; max-width: 440px;">
+            <div style="text-align: center; margin-bottom: 40px;">
+                <h1 style="font-size: 32px; font-weight: 700; margin-bottom: 10px;">Welcome Back</h1>
+                <p style="color: var(--text-secondary); font-size: 16px;">Please enter your details to sign in.</p>
+            </div>
+            
+            <form method="POST" action="{{ url_for('auth.login') }}">
+                <div class="form-group" style="margin-bottom: 24px;">
+                    <label for="email" style="font-size: 14px; font-weight: 600; color: var(--text-primary); margin-bottom: 8px; display: block;">Email Address</label>
+                    <div style="position: relative;">
+                        <i class="fa-regular fa-envelope" style="position: absolute; left: 16px; top: 50%; transform: translateY(-50%); color: var(--text-secondary);"></i>
+                        <input type="email" id="email" name="email" class="form-control" placeholder="Enter your email" required style="padding-left: 44px; height: 52px; border-radius: 12px; font-size: 15px;">
+                    </div>
+                </div>
+                
+                <div class="form-group" style="margin-bottom: 32px;">
+                    <label for="password" style="font-size: 14px; font-weight: 600; color: var(--text-primary); margin-bottom: 8px; display: block;">Password</label>
+                    <div style="position: relative;">
+                        <i class="fa-solid fa-lock" style="position: absolute; left: 16px; top: 50%; transform: translateY(-50%); color: var(--text-secondary);"></i>
+                        <input type="password" id="password" name="password" class="form-control" placeholder="Enter your password" required style="padding-left: 44px; height: 52px; border-radius: 12px; font-size: 15px;">
+                    </div>
+                </div>
+                
+                <button type="submit" class="btn-primary" style="width: 100%; height: 52px; border-radius: 12px; font-size: 16px; margin-top: 10px;">Sign In</button>
+            </form>
+            
+            <p style="text-align: center; margin-top: 32px; color: var(--text-secondary); font-size: 15px;">
+                Don't have an account? <a href="{{ url_for('auth.register') }}" class="accent-text" style="font-weight: 600;">Sign up for free</a>
+            </p>
+        </div>
+    </div>
+    
+    <!-- Right Image Section -->
+    <div style="flex: 1.2; background-image: url('{{ url_for('static', filename='img/hotel1.png') }}'); background-size: cover; background-position: center; position: relative; display: none; @media(min-width: 900px) { display: block; }">
+        <div style="position: absolute; top: 0; left: 0; right: 0; bottom: 0; background: linear-gradient(to bottom, rgba(0,0,0,0.1), rgba(0,0,0,0.5));"></div>
+        <div style="position: absolute; bottom: 60px; left: 60px; color: white; max-width: 500px;">
+            <h2 style="font-size: 36px; font-weight: 700; margin-bottom: 16px; line-height: 1.2;">Experience the pinnacle of luxury.</h2>
+            <p style="font-size: 18px; opacity: 0.9;">Sign in to manage your bookings, discover exclusive member deals, and unlock premium amenities.</p>
+        </div>
+    </div>
+</div>
+
+<!-- Inline CSS to handle responsive display for the split screen -->
+<style>
+    @media (max-width: 900px) {
+        div[style*="flex: 1.2"] {
+            display: none !important;
+        }
+    }
+</style>
+{% endblock %}

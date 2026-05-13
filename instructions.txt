@@ -1,0 +1,67 @@
+# Hotel Hub SaaS - Setup & Run Instructions
+
+Follow these steps to set up and run the Hotel Hub SaaS application on your local machine.
+
+## Prerequisites
+- Python 3.8 or higher installed
+- pip (Python package installer)
+
+## Step 1: Open the Project Directory
+Navigate to the project folder in your terminal or command prompt:
+```bash
+cd "d:\Chintan\Hotel Hub"
+```
+
+## Step 2: Create a Virtual Environment (Recommended)
+It's best practice to use a virtual environment to manage dependencies.
+```bash
+python -m venv venv
+```
+
+Activate the virtual environment:
+- On **Windows**:
+  ```bash
+  venv\Scripts\activate
+  ```
+- On **macOS/Linux**:
+  ```bash
+  source venv/bin/activate
+  ```
+
+## Step 3: Install Dependencies
+Install all required Python packages from the `requirements.txt` file:
+```bash
+pip install -r requirements.txt
+```
+
+## Step 4: Database Setup & Seeding
+The application uses SQLite (`hotelhub.db`). To initialize the database with demo users, luxury Indian hotels, and rooms, run the seed script:
+```bash
+python seed.py
+```
+*Note: Running `seed.py` will drop any existing data and recreate the database with the seed data.*
+
+### Seed Data (Demo Accounts):
+- **Super Admin**: 
+  - Email: `admin@hotelhub.com`
+  - Password: `admin123`
+- **Hotel Admins**: 
+  - Email: `taj@hotelhub.com` / `leela@hotelhub.com`
+  - Password: `hotel123`
+- **Customer**: 
+  - Email: `customer@example.com`
+  - Password: `guest123`
+
+## Step 5: Run the Application
+Start the Flask development server:
+```bash
+python app.py
+```
+Alternatively, you can run:
+```bash
+flask run
+```
+
+## Step 6: Access the Application
+Open your web browser and navigate to:
+http://127.0.0.1:5000/

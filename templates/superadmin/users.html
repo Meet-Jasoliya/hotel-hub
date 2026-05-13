@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+
+{% block title %}Super Admin - All Users{% endblock %}
+{% block page_title %}Platform Users{% endblock %}
+
+{% block content %}
+<div class="glass-panel" style="padding: 30px;">
+    <h2 style="margin-bottom: 20px;">All Registered Users</h2>
+    
+    <div class="table-responsive">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Username</th>
+                    <th>Email</th>
+                    <th>Role</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for user in users %}
+                <tr>
+                    <td>#{{ user.id }}</td>
+                    <td>{{ user.username }}</td>
+                    <td>{{ user.email }}</td>
+                    <td>
+                        {% if user.role == 'superadmin' %}
+                        <span class="badge badge-active">Super Admin</span>
+                        {% elif user.role == 'hoteladmin' %}
+                        <span class="badge badge-pending" style="color: #ff9800; background: rgba(255, 152, 0, 0.2);">Hotel Admin</span>
+                        {% else %}
+                        <span class="badge" style="background: rgba(255,255,255,0.1);">Customer</span>
+                        {% endif %}
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+
+{% block title %}Customer - Dashboard{% endblock %}
+{% block page_title %}My Dashboard{% endblock %}
+
+{% block content %}
+<div class="glass-panel" style="padding: 30px; margin-bottom: 30px;">
+    <h2>Welcome, {{ current_user.username }}!</h2>
+    <p style="color: var(--text-secondary);">Ready for your next getaway?</p>
+    <a href="{{ url_for('customer.find_hotels') }}" class="btn-primary" style="margin-top: 15px;"><i class="fa-solid fa-magnifying-glass"></i> Explore Hotels</a>
+</div>
+
+<h3 style="margin-bottom: 20px;">Your Active Stays</h3>
+<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 24px;">
+    {% if active_bookings %}
+        {% for booking in active_bookings %}
+        <div class="glass-panel" style="padding: 24px; border-left: 4px solid var(--accent-electric-blue);">
+            <h3 style="margin-bottom: 10px;">{{ booking.hotel.name }}</h3>
+            <p style="color: var(--text-secondary); margin-bottom: 15px;"><i class="fa-solid fa-bed"></i> {{ booking.room.room_number }} ({{ booking.room.room_type }})</p>
+            
+            <div style="display: flex; justify-content: space-between; margin-bottom: 20px; font-size: 14px;">
+                <div>
+                    <span style="color: var(--text-secondary); display: block;">Check-in</span>
+                    <strong>{{ booking.check_in_date }}</strong>
+                </div>
+                <div>
+                    <span style="color: var(--text-secondary); display: block;">Check-out</span>
+                    <strong>{{ booking.check_out_date }}</strong>
+                </div>
+            </div>
+            
+            <a href="{{ url_for('customer.room_service', booking_id=booking.id) }}" class="btn-primary" style="width: 100%; text-align: center;"><i class="fa-solid fa-bell-concierge"></i> Room Service</a>
+        </div>
+        {% endfor %}
+    {% else %}
+        <div class="glass-panel" style="padding: 30px; text-align: center; grid-column: 1 / -1;">
+            <p style="color: var(--text-secondary);">You don't have any active bookings right now.</p>
+        </div>
+    {% endif %}
+</div>
+{% endblock %}

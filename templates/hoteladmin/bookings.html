@@ -1,0 +1,78 @@
+{% extends "base.html" %}
+
+{% block title %}Hotel Admin - Bookings{% endblock %}
+{% block page_title %}Hotel Bookings{% endblock %}
+
+{% block content %}
+<div class="glass-panel" style="padding: 30px;">
+    <h2 style="margin-bottom: 20px;">All Bookings</h2>
+    
+    {% if bookings %}
+    <div class="table-responsive">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Booking ID</th>
+                    <th>Customer</th>
+                    <th>Room</th>
+                    <th>Check-in</th>
+                    <th>Check-out</th>
+                    <th>Total Price</th>
+                    <th>Status</th>
+                    <th>Proof</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for booking in bookings %}
+                <tr>
+                    <td>#{{ booking.id }}</td>
+                    <td>{{ booking.customer.username }}</td>
+                    <td>{{ booking.room.room_number }} ({{ booking.room.room_type }})</td>
+                    <td>{{ booking.check_in_date }}</td>
+                    <td>{{ booking.check_out_date }}</td>
+                    <td>₹{{ "%.2f"|format(booking.total_price) }}</td>
+                    <td>
+                        {% if booking.status == 'pending' %}
+                            <span class="badge" style="background: #f59e0b; color: white;">Pending</span>
+                        {% elif booking.status == 'active' %}
+                            <span class="badge badge-active">Active</span>
+                        {% elif booking.status == 'completed' %}
+                            <span class="badge badge-completed">Completed</span>
+                        {% elif booking.status == 'rejected' %}
+                            <span class="badge badge-rejected">Rejected</span>
+                        {% else %}
+                            <span class="badge badge-rejected">Cancelled</span>
+                        {% endif %}
+                    </td>
+                    <td>
+                        {% if booking.identity_proof %}
+                            <a href="{{ url_for('static', filename=booking.identity_proof) }}" target="_blank" style="color: var(--accent-primary); font-size: 14px;"><i class="fa-solid fa-id-card"></i> View</a>
+                        {% else %}
+                            <span style="color: var(--text-secondary); font-size: 14px;">None</span>
+                        {% endif %}
+                    </td>
+                    <td>
+                        {% if booking.status == 'pending' %}
+                            <a href="{{ url_for('hoteladmin.accept_booking', booking_id=booking.id) }}" class="btn-primary" style="padding: 4px 8px; font-size: 12px; background: #10b981;">Accept</a>
+                            <a href="{{ url_for('hoteladmin.reject_booking', booking_id=booking.id) }}" class="btn-primary" style="padding: 4px 8px; font-size: 12px; background: #ef4444;">Reject</a>
+                        {% elif booking.status in ['active', 'completed'] %}
+                            <a href="{{ url_for('hoteladmin.generate_bill', booking_id=booking.id) }}" target="_blank" class="btn-primary" style="padding: 4px 8px; font-size: 12px;"><i class="fa-solid fa-file-invoice"></i> Bill</a>
+                        {% else %}
+                            <span style="color: var(--text-secondary);">-</span>
+                        {% endif %}
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    {% else %}
+    <div style="text-align: center; padding: 40px; color: var(--text-secondary);">
+        <i class="fa-solid fa-book-open" style="font-size: 48px; margin-bottom: 20px; opacity: 0.5;"></i>
+        <h3>No bookings yet</h3>
+        <p>Your hotel hasn't received any bookings.</p>
+    </div>
+    {% endif %}
+</div>
+{% endblock %}
